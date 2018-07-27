@@ -1,0 +1,75 @@
+---
+title: "Creating a mock-up of biocverse"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Load libraries and data into R
+```{r}
+library(BiocPkgTools)
+library(dplyr)
+library(stringr)
+library(d3Network)
+
+pkg_data <- BiocPkgTools::getBiocPkgList()
+names(pkg_data)
+```
+
+Create a D3 object from the package names and dependencies
+```{r}
+pkgs <- as.character(pkg_data$Package)
+deps <- pkg_data$Depends
+
+bioc_views <- pkg_data$biocViews %>%
+    as.character() %>%
+    str_remove_all("\\s+")
+
+bioc_views_df <- data.frame(
+    Package = pkgs,
+    BiocViews = bioc_views
+)
+
+network_data <- lapply(
+        seq_along(pkgs), 
+        function(i) { cbind(pkgs[i], deps[[i]]) }
+    ) %>%
+    do.call(rbind, .) %>%
+    as.data.frame()
+colnames(network_data) <- c("Package", "Dependency")
+
+# clean up data.frame
+# filter out NA dependencies
+# remove version requirements from dependencies
+network_data <- network_data %>%
+    filter(!is.na(Dependency)) %>%
+    mutate(Dependency = str_remove(Dependency, " (.*)")) %>%
+    mutate(Dependency = str_remove(Dependency, "\n(.*)")) # corner case for vsn pkg
+
+# retain only dependencies within bioconductor
+network_data <- network_data %>%
+    filter(Dependency %in% Package)
+
+# filter down to a specific view
+target_view <- "RNASeq"
+
+target_pkgs <- bioc_views_df %>%
+    filter(str_detect(BiocViews, target_view))%>%
+    pull(Package)
+plotting_data <- network_data %>%
+    filter(Package %in% target_pkgs)
+
+# open network.html after running line below
+d3SimpleNetwork(
+    plotting_data, # subset to avoid hairy ball
+    height = 800,
+    width = 800,
+    fontsize = 12,
+    file = "network.html"
+)
+
+system("open network.html") # mac/linux only
+```
+
