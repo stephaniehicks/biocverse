@@ -1,0 +1,132 @@
+
+        <!DOCTYPE html>
+        <meta charset="utf-8">
+        <body> 
+ <style>
+.link {
+stroke: #666;
+opacity: 0.6;
+stroke-width: 1.5px;
+}
+.node circle {
+stroke: #fff;
+opacity: 0.6;
+stroke-width: 1.5px;
+}
+text {
+font: 12px serif;
+opacity: 0.6;
+pointer-events: none;
+}
+</style>
+
+<script src=http://d3js.org/d3.v3.min.js></script>
+
+<script> 
+ var links = [ { "source" : "AIMS", "target" : "Biobase" }, { "source" : "ampliQueso", "target" : "rnaSeqMap" }, { "source" : "ampliQueso", "target" : "VariantAnnotation" }, { "source" : "ArrayExpressHTS", "target" : "Rsamtools" }, { "source" : "ASpli", "target" : "edgeR" }, { "source" : "attract", "target" : "AnnotationDbi" }, { "source" : "bacon", "target" : "BiocParallel" }, { "source" : "Basic4Cseq", "target" : "Biostrings" }, { "source" : "Basic4Cseq", "target" : "GenomicAlignments" }, { "source" : "Basic4Cseq", "target" : "GenomicRanges" }, { "source" : "BASiCS", "target" : "SingleCellExperiment" }, { "source" : "BioNetStat", "target" : "pathview" }, { "source" : "BitSeq", "target" : "Rsamtools" }, { "source" : "BPRMeth", "target" : "GenomicRanges" }, { "source" : "casper", "target" : "Biobase" }, { "source" : "casper", "target" : "IRanges" }, { "source" : "casper", "target" : "GenomicRanges" }, { "source" : "cellTree", "target" : "topGO" }, { "source" : "clusterExperiment", "target" : "SingleCellExperiment" }, { "source" : "clusterExperiment", "target" : "SummarizedExperiment" }, { "source" : "coMET", "target" : "biomaRt" }, { "source" : "coMET", "target" : "Gviz" }, { "source" : "coseq", "target" : "SummarizedExperiment" }, { "source" : "coseq", "target" : "S4Vectors" }, { "source" : "covEB", "target" : "Biobase" }, { "source" : "CoverageView", "target" : "Rsamtools" }, { "source" : "CoverageView", "target" : "rtracklayer" }, { "source" : "customProDB", "target" : "IRanges" }, { "source" : "customProDB", "target" : "AnnotationDbi" }, { "source" : "DaMiRseq", "target" : "SummarizedExperiment" }, { "source" : "DEGseq", "target" : "qvalue" }, { "source" : "DESeq", "target" : "BiocGenerics" }, { "source" : "DESeq", "target" : "Biobase" }, { "source" : "DESeq2", "target" : "S4Vectors" }, { "source" : "DESeq2", "target" : "IRanges" }, { "source" : "DESeq2", "target" : "GenomicRanges" }, { "source" : "DESeq2", "target" : "SummarizedExperiment" }, { "source" : "DEXSeq", "target" : "BiocParallel" }, { "source" : "DEXSeq", "target" : "Biobase" }, { "source" : "DEXSeq", "target" : "SummarizedExperiment" }, { "source" : "DEXSeq", "target" : "IRanges" }, { "source" : "DEXSeq", "target" : "GenomicRanges" }, { "source" : "DEXSeq", "target" : "DESeq2" }, { "source" : "DEXSeq", "target" : "AnnotationDbi" }, { "source" : "DEXSeq", "target" : "S4Vectors" }, { "source" : "dexus", "target" : "BiocGenerics" }, { "source" : "diffcoexp", "target" : "SummarizedExperiment" }, { "source" : "doppelgangR", "target" : "Biobase" }, { "source" : "doppelgangR", "target" : "BiocParallel" }, { "source" : "DropletUtils", "target" : "BiocParallel" }, { "source" : "DropletUtils", "target" : "SingleCellExperiment" }, { "source" : "DSS", "target" : "Biobase" }, { "source" : "DSS", "target" : "bsseq" }, { "source" : "EBSeqHMM", "target" : "EBSeq" }, { "source" : "EDASeq", "target" : "Biobase" }, { "source" : "EDASeq", "target" : "ShortRead" }, { "source" : "EDDA", "target" : "DESeq" }, { "source" : "EDDA", "target" : "baySeq" }, { "source" : "EDDA", "target" : "edgeR" }, { "source" : "edgeR", "target" : "limma" }, { "source" : "EGSEA", "target" : "Biobase" }, { "source" : "EGSEA", "target" : "gage" }, { "source" : "EGSEA", "target" : "AnnotationDbi" }, { "source" : "EGSEA", "target" : "topGO" }, { "source" : "EGSEA", "target" : "pathview" }, { "source" : "EnrichmentBrowser", "target" : "SummarizedExperiment" }, { "source" : "EnrichmentBrowser", "target" : "graph" }, { "source" : "EventPointer", "target" : "SGSeq" }, { "source" : "EventPointer", "target" : "SummarizedExperiment" }, { "source" : "GenomicAlignments", "target" : "BiocGenerics" }, { "source" : "GenomicAlignments", "target" : "S4Vectors" }, { "source" : "GenomicAlignments", "target" : "IRanges" }, { "source" : "GenomicAlignments", "target" : "GenomeInfoDb" }, { "source" : "GenomicAlignments", "target" : "GenomicRanges" }, { "source" : "GenomicAlignments", "target" : "SummarizedExperiment" }, { "source" : "GenomicAlignments", "target" : "Biostrings" }, { "source" : "GenomicAlignments", "target" : "Rsamtools" }, { "source" : "GOexpress", "target" : "Biobase" }, { "source" : "GRridge", "target" : "graph" }, { "source" : "GSEABenchmarkeR", "target" : "Biobase" }, { "source" : "GSEABenchmarkeR", "target" : "SummarizedExperiment" }, { "source" : "Guitar", "target" : "Rsamtools" }, { "source" : "Guitar", "target" : "GenomicFeatures" }, { "source" : "Guitar", "target" : "rtracklayer" }, { "source" : "Guitar", "target" : "GenomicAlignments" }, { "source" : "Guitar", "target" : "GenomicRanges" }, { "source" : "Guitar", "target" : "IRanges" }, { "source" : "ideal", "target" : "topGO" }, { "source" : "IMAS", "target" : "GenomicFeatures" }, { "source" : "IMAS", "target" : "IVAS" }, { "source" : "InPAS", "target" : "Biobase" }, { "source" : "InPAS", "target" : "GenomicRanges" }, { "source" : "InPAS", "target" : "GenomicFeatures" }, { "source" : "InPAS", "target" : "S4Vectors" }, { "source" : "INSPEcT", "target" : "Biobase" }, { "source" : "INSPEcT", "target" : "BiocParallel" }, { "source" : "InTAD", "target" : "S4Vectors" }, { "source" : "InTAD", "target" : "IRanges" }, { "source" : "InTAD", "target" : "GenomicRanges" }, { "source" : "InTAD", "target" : "MultiAssayExperiment" }, { "source" : "InTAD", "target" : "SummarizedExperiment" }, { "source" : "IntEREst", "target" : "GenomicRanges" }, { "source" : "IntEREst", "target" : "Rsamtools" }, { "source" : "IntEREst", "target" : "SummarizedExperiment" }, { "source" : "IntEREst", "target" : "edgeR" }, { "source" : "IntEREst", "target" : "S4Vectors" }, { "source" : "IsoformSwitchAnalyzeR", "target" : "cummeRbund" }, { "source" : "isomiRs", "target" : "SummarizedExperiment" }, { "source" : "IVAS", "target" : "GenomicFeatures" }, { "source" : "IVAS", "target" : "Biobase" }, { "source" : "JunctionSeq", "target" : "SummarizedExperiment" }, { "source" : "manta", "target" : "edgeR" }, { "source" : "MAST", "target" : "SingleCellExperiment" }, { "source" : "metaSeq", "target" : "NOISeq" }, { "source" : "metaseqR", "target" : "EDASeq" }, { "source" : "metaseqR", "target" : "DESeq" }, { "source" : "metaseqR", "target" : "limma" }, { "source" : "metaseqR", "target" : "qvalue" }, { "source" : "MIGSA", "target" : "BiocGenerics" }, { "source" : "miRmine", "target" : "SummarizedExperiment" }, { "source" : "monocle", "target" : "Biobase" }, { "source" : "netSmooth", "target" : "scater" }, { "source" : "netSmooth", "target" : "clusterExperiment" }, { "source" : "NOISeq", "target" : "Biobase" }, { "source" : "ORFik", "target" : "IRanges" }, { "source" : "ORFik", "target" : "GenomicRanges" }, { "source" : "ORFik", "target" : "GenomicAlignments" }, { "source" : "Oscope", "target" : "EBSeq" }, { "source" : "Oscope", "target" : "BiocParallel" }, { "source" : "pbcmc", "target" : "genefu" }, { "source" : "PGA", "target" : "IRanges" }, { "source" : "PGA", "target" : "GenomicRanges" }, { "source" : "PGA", "target" : "Biostrings" }, { "source" : "PGA", "target" : "rTANDEM" }, { "source" : "Pigengene", "target" : "graph" }, { "source" : "Polyfit", "target" : "DESeq" }, { "source" : "PowerExplorer", "target" : "SummarizedExperiment" }, { "source" : "prebs", "target" : "GenomicAlignments" }, { "source" : "prebs", "target" : "affy" }, { "source" : "prebs", "target" : "RPA" }, { "source" : "QuasR", "target" : "GenomicRanges" }, { "source" : "qusage", "target" : "limma" }, { "source" : "recount", "target" : "SummarizedExperiment" }, { "source" : "recoup", "target" : "GenomicRanges" }, { "source" : "recoup", "target" : "GenomicAlignments" }, { "source" : "recoup", "target" : "ComplexHeatmap" }, { "source" : "rgsepd", "target" : "DESeq2" }, { "source" : "rgsepd", "target" : "goseq" }, { "source" : "rnaSeqMap", "target" : "Biobase" }, { "source" : "rnaSeqMap", "target" : "Rsamtools" }, { "source" : "rnaSeqMap", "target" : "GenomicAlignments" }, { "source" : "RUVSeq", "target" : "Biobase" }, { "source" : "RUVSeq", "target" : "EDASeq" }, { "source" : "RUVSeq", "target" : "edgeR" }, { "source" : "samExploreR", "target" : "edgeR" }, { "source" : "sampleClassifier", "target" : "MGFM" }, { "source" : "sampleClassifier", "target" : "MGFR" }, { "source" : "sampleClassifier", "target" : "annotate" }, { "source" : "sapFinder", "target" : "rTANDEM" }, { "source" : "SCAN.UPC", "target" : "Biobase" }, { "source" : "SCAN.UPC", "target" : "oligo" }, { "source" : "SCAN.UPC", "target" : "Biostrings" }, { "source" : "SCAN.UPC", "target" : "GEOquery" }, { "source" : "SCAN.UPC", "target" : "affy" }, { "source" : "SCAN.UPC", "target" : "affyio" }, { "source" : "SCAN.UPC", "target" : "sva" }, { "source" : "scater", "target" : "Biobase" }, { "source" : "scater", "target" : "SingleCellExperiment" }, { "source" : "scater", "target" : "SummarizedExperiment" }, { "source" : "scone", "target" : "SummarizedExperiment" }, { "source" : "scPipe", "target" : "SingleCellExperiment" }, { "source" : "scran", "target" : "BiocParallel" }, { "source" : "scran", "target" : "SingleCellExperiment" }, { "source" : "SeqGSEA", "target" : "Biobase" }, { "source" : "SeqGSEA", "target" : "DESeq" }, { "source" : "SGSeq", "target" : "IRanges" }, { "source" : "SGSeq", "target" : "GenomicRanges" }, { "source" : "SGSeq", "target" : "Rsamtools" }, { "source" : "SGSeq", "target" : "SummarizedExperiment" }, { "source" : "SigFuge", "target" : "GenomicRanges" }, { "source" : "SMITE", "target" : "GenomicRanges" }, { "source" : "splatter", "target" : "SingleCellExperiment" }, { "source" : "SplicingGraphs", "target" : "GenomicFeatures" }, { "source" : "SplicingGraphs", "target" : "GenomicAlignments" }, { "source" : "SplicingGraphs", "target" : "Rgraphviz" }, { "source" : "SSPA", "target" : "qvalue" }, { "source" : "SSPA", "target" : "limma" }, { "source" : "ssviz", "target" : "Rsamtools" }, { "source" : "ssviz", "target" : "Biostrings" }, { "source" : "STROMA4", "target" : "Biobase" }, { "source" : "STROMA4", "target" : "BiocParallel" }, { "source" : "sva", "target" : "BiocParallel" }, { "source" : "switchde", "target" : "SingleCellExperiment" }, { "source" : "systemPipeR", "target" : "Rsamtools" }, { "source" : "systemPipeR", "target" : "Biostrings" }, { "source" : "systemPipeR", "target" : "ShortRead" }, { "source" : "TCC", "target" : "DESeq" }, { "source" : "TCC", "target" : "DESeq2" }, { "source" : "TCC", "target" : "edgeR" }, { "source" : "TCC", "target" : "baySeq" }, { "source" : "TCC", "target" : "ROC" }, { "source" : "ToPASeq", "target" : "graphite" }, { "source" : "TransView", "target" : "GenomicRanges" }, { "source" : "variancePartition", "target" : "limma" }, { "source" : "variancePartition", "target" : "Biobase" }, { "source" : "wavClusteR", "target" : "GenomicRanges" }, { "source" : "wavClusteR", "target" : "Rsamtools" }, { "source" : "XBSeq", "target" : "DESeq2" }, { "source" : "zinbwave", "target" : "SummarizedExperiment" }, { "source" : "zinbwave", "target" : "SingleCellExperiment" } ] ; 
+ var nodes = {}
+
+// Compute the distinct nodes from the links.
+links.forEach(function(link) {
+link.source = nodes[link.source] ||
+(nodes[link.source] = {name: link.source});
+link.target = nodes[link.target] ||
+(nodes[link.target] = {name: link.target});
+link.value = +link.value;
+});
+
+var width = 800
+height = 800;
+
+var force = d3.layout.force()
+.nodes(d3.values(nodes))
+.links(links)
+.size([width, height])
+.linkDistance(50)
+.charge(-200)
+.on("tick", tick)
+.start();
+
+var svg = d3.select("body").append("svg")
+.attr("width", width)
+.attr("height", height);
+
+var link = svg.selectAll(".link")
+.data(force.links())
+.enter().append("line")
+.attr("class", "link");
+
+var node = svg.selectAll(".node")
+.data(force.nodes())
+.enter().append("g")
+.attr("class", "node")
+.on("mouseover", mouseover)
+.on("mouseout", mouseout)
+.on("click", click)
+.on("dblclick", dblclick)
+.call(force.drag);
+
+node.append("circle")
+.attr("r", 8)
+.style("fill", "#3182bd");
+
+node.append("text")
+.attr("x", 12)
+.attr("dy", ".35em")
+.style("fill", "#3182bd")
+.text(function(d) { return d.name; });
+
+function tick() {
+link
+.attr("x1", function(d) { return d.source.x; })
+.attr("y1", function(d) { return d.source.y; })
+.attr("x2", function(d) { return d.target.x; })
+.attr("y2", function(d) { return d.target.y; });
+
+node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+}
+
+function mouseover() {
+d3.select(this).select("circle").transition()
+.duration(750)
+.attr("r", 16);
+}
+
+function mouseout() {
+d3.select(this).select("circle").transition()
+.duration(750)
+.attr("r", 8);
+}
+// action to take on mouse click
+function click() {
+d3.select(this).select("text").transition()
+.duration(750)
+.attr("x", 22)
+.style("stroke-width", ".5px")
+.style("opacity", 1)
+.style("fill", "#E34A33")
+.style("font", "30px serif");
+d3.select(this).select("circle").transition()
+.duration(750)
+.style("fill", "#E34A33")
+.attr("r", 16)
+}
+
+// action to take on mouse double click
+function dblclick() {
+d3.select(this).select("circle").transition()
+.duration(750)
+.attr("r", 6)
+.style("fill", "#E34A33");
+d3.select(this).select("text").transition()
+.duration(750)
+.attr("x", 12)
+.style("stroke", "none")
+.style("fill", "#E34A33")
+.style("stroke", "none")
+.style("opacity", 0.6)
+.style("font", "12px serif");
+}
+
+</script>
+ </body>

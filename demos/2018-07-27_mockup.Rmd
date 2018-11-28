@@ -14,7 +14,7 @@ library(dplyr)
 library(stringr)
 library(d3Network)
 
-pkg_data <- BiocPkgTools::getBiocPkgList()
+pkg_data <- BiocPkgTools::biocPkgList()
 names(pkg_data)
 ```
 
